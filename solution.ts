@@ -29,7 +29,7 @@ class Person {
     this.age = age;
   }
   getDetails() {
-    return `Name: ${this.name} , Age: ${this.age}`;
+    return `'Name: ${this.name} , Age: ${this.age}'`;
   }
 }
 
@@ -70,5 +70,55 @@ function printBookDetails(book: Book) {
   );
 }
 
+// problem-7
 
+function getUniqueValues(arr1: string | number[], arr2: string | number[]) {
+  const result: (string | number)[] = [];
 
+  function exists(value: string | number, array: (string | number)[]) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === value) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!exists(arr1[i], result)) {
+      result[result.length] = arr1[i];
+    }
+  }
+
+  for (let i = 0; i < arr2.length; i++) {
+    if (!exists(arr2[i], result)) {
+      result[result.length] = arr2[i];
+    }
+  }
+
+  return result;
+}
+
+// problem-8
+type Product = {
+  name: string;
+  price: number;
+  quantity: number;
+  discount?: number;
+};
+
+function calculateTotalPrice(products: Product[]) {
+  if (products.length === 0) {
+    return 0;
+  }
+  return products
+    .map((product) => {
+      const baseTotal = product.price * product.quantity;
+      if (product.discount) {
+        const discountAmount = (baseTotal * product.discount) / 100;
+        return baseTotal - discountAmount;
+      }
+      return baseTotal;
+    })
+    .reduce((sum, value) => sum + value, 0);
+}
